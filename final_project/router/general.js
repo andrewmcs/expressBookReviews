@@ -27,8 +27,8 @@ public_users.get('/author/:author', function (req, res) {
     let books_found = {};
 
     for (let isbn in books) {
-        if (books[isbn].author==author){
-            books_found[isbn]=books[isbn];
+        if (books[isbn].author == author) {
+            books_found[isbn] = books[isbn];
         }
     }
     res.send(books_found);
@@ -36,14 +36,21 @@ public_users.get('/author/:author', function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
-    //Write your code here
-    return res.status(300).json({ message: "Yet to be implemented" });
+    const title = req.params.title;
+    let books_found = {};
+
+    for (let isbn in books) {
+        if (books[isbn].title == title) {
+            books_found[isbn] = books[isbn];
+        }
+    }
+    res.send(books_found);
 });
 
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
-    //Write your code here
-    return res.status(300).json({ message: "Yet to be implemented" });
+    const isbn = req.params.isbn;
+    
 });
 
 module.exports.general = public_users;
