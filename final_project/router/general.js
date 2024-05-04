@@ -34,45 +34,82 @@ public_users.post("/register", (req, res) => {
 
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
-    res.send(JSON.stringify({ books }, null, 4));
+    let myPromise = new Promise(function (resolve, reject) {
+        setTimeout(function () { resolve(JSON.stringify({ books }, null, 4)); }, 3000);
+    });
+
+    myPromise.then(function (value) {
+        res.send(value);
+    });
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', function (req, res) {
-    const isbn = req.params.isbn;
-    return res.send(books[isbn]);
+    let myPromise = new Promise(function (resolve, reject) {
+        const isbn = req.params.isbn;
+        setTimeout(function () { resolve(books[isbn]); }, 3000);
+    });
+
+    myPromise.then(function (value) {
+        res.send(value);
+    });
 });
 
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
-    const author = req.params.author;
-    let books_found = {};
 
-    for (let isbn in books) {
-        if (books[isbn].author == author) {
-            books_found[isbn] = books[isbn];
-        }
-    }
-    res.send(books_found);
+    //Creating a promise method. The promise will get resolved when timer times out after 3 seconds.
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const author = req.params.author;
+            let books_found = {};
+
+            for (let isbn in books) {
+                if (books[isbn].author == author) {
+                    books_found[isbn] = books[isbn];
+                }
+            }
+            resolve(books_found);
+        }, 3000)
+    });
+    myPromise.then((value) => {
+        res.send(value);
+    })
+
 });
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
-    const title = req.params.title;
-    let books_found = {};
-
-    for (let isbn in books) {
-        if (books[isbn].title == title) {
-            books_found[isbn] = books[isbn];
-        }
-    }
-    res.send(books_found);
+    //Creating a promise method. The promise will get resolved when timer times out after 3 seconds.
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const title = req.params.title;
+            let books_found = {};
+        
+            for (let isbn in books) {
+                if (books[isbn].title == title) {
+                    books_found[isbn] = books[isbn];
+                }
+            }
+            resolve(books_found);
+        }, 3000)
+    });
+    myPromise.then((value) => {
+        res.send(value);
+    })
 });
 
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
     const isbn = req.params.isbn;
-    res.send(books[isbn].reviews);
+
+    let myPromise = new Promise(function (resolve, reject) {
+        setTimeout(function () { resolve(books[isbn].reviews); }, 3000);
+    });
+
+    myPromise.then(function (value) {
+        res.send(value);
+    });
 });
 
 module.exports.general = public_users;
